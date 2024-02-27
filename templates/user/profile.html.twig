@@ -1,9 +1,36 @@
 
 {% extends 'front.html.twig' %}
 
-{% block content %}
-    <h1>Welcome, {{ user.username }}</h1>
-    <p>Email: {{ user.email }}</p>
-    <p>Role: {{ user.roles[0] }}</p>
+{% block body %}
+    <h1>Welcome, {{ user.nom }} {{user.prenom}}</h1>
+    <table class="table">
+        <tbody>
+            
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            
+            <tr>
+                <th>Password</th>
+                {% if not hide_password %}
+        <td>{{ user.password }}</td>
+    {% else %}
+        <td>********</td> <!-- Placeholder for hidden password -->
+    {% endif %}
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ user.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ user.prenom }}</td>
+            </tr>
+           
+            
+        </tbody>
+    </table>
+    <a href="{{ path('app_user_editProfile', {'id': user.id}) }}">edit</a>
     <!-- Add more details as needed -->
 {% endblock %}

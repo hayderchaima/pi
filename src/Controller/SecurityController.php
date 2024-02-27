@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Controller;
+
 use App\Enum\Role;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,8 +17,8 @@ class SecurityController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        $user=$this->getUser();
-         if ($user!==null) {
+        $user = $this->getUser();
+        if ($user !== null) {
             $role = $user->getRole();
 
             if ($role === Role::ADMIN) {
@@ -24,9 +26,9 @@ class SecurityController extends AbstractController
             } else {
                 // The user is a regular user
                 // Do something for regular users
-                return $this->redirectToRoute('app_user_index_front');
+                return $this->redirectToRoute('profile');
             }
-         }
+        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -43,13 +45,26 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/profile', name: 'profile')]
-    public function profile(Security $security)
+    public function profile(Security $security, UserRepository $userRepository)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $security->getUser();
+        
+
+        if ($user !== null) {
+            $role = $user->getRole();
+            if ($role === Role::abonne) {
+                return $this->render('user/profile.html.twig', [
+                    'user' => $user,
+                    'hide_password' => true,
+                    'controller_name' => 'SecurityController',
+                ]);
+            } elseif ($role === Role::ADMIN) {
+                return $this->redirectToRoute('app_user_index');
+            }
+        }
         // Now $user contains the currently authenticated user
-    
-        return $this->render('user/profile.html.twig', [
-            'user' => $user,
-        ]);
+
+        return $this->redirectToRoute('app_login');
     }
 }

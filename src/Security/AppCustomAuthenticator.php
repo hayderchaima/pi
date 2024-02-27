@@ -60,7 +60,7 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
             } elseif ($role === Role::abonne) {
                 // The user is a regular user
                 // Do something for regular users
-                return new RedirectResponse($this->urlGenerator->generate('app_user_index_front'));
+                return new RedirectResponse($this->urlGenerator->generate('profile'));
             }
         }
 
