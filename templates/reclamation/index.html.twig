@@ -1,0 +1,31 @@
+{% extends 'admin.html.twig' %}
+{% block main  %}
+    <div class="card-body">
+        <h5 class="card-title">categories</h5>
+
+        <!-- Default Table -->
+        <table class="table">
+            <thead>
+            <tr>
+
+                <th scope="col">fullname</th>
+                <th scope="col">categories</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr {% for a in Reclamation%}>
+
+                <td>{{ a.fullname }}</td>
+
+                <td>{{ a.categories.name }}</td>
+
+                <td> <a class="btn cur-p btn-danger" href="{{ path('delete_rep',{'id':a.id}) }}"> Delete</a> <a class="btn cur-p btn-success" href="{{ path('update_rep',{'id':a.id}) }}"> update</a> </td>
+
+            </tr {% endfor %} >
+
+            </tbody>
+        </table>
+        <!-- End Default Table Example -->
+    </div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'admin.html.twig' %}
+
+{% block main %}
+    {% form_theme form 'bootstrap_4_layout.html.twig' %}
+    <div class="card-body">
+        <h5 class="card-title">update categories </h5>
+
+        {{form_start(form,{'attr' :{'novalidate':'novalidate'}})}}}}
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

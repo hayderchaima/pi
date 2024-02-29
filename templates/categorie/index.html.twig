@@ -1,0 +1,35 @@
+{% extends 'admin.html.twig' %}
+{% block main  %}
+    <div class="card-body">
+        <h5 class="card-title">s</h5>
+
+        <!-- Default Table -->
+        <table class="table">
+            <thead>
+            <tr>
+
+                <th scope="col">nom</th>
+                <th scope="col">date</th>
+                <th scope="col">duree</th>
+                <th scope="col">prix</th>
+                <th scope="col">Description</th>
+                <th scope="col">image</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr {% for a in Categorie %}>
+
+                <td>{{ a.name }}</td>
+                <td>{{ a.date|date('d-m-Y') }}</td>
+                <td>{{ a.Description }}</td>
+                <td> <img src="{{ asset ('uploads/images/' ~ a.image) }}"  style="width:80px ; height:80px" /></td>
+                <td> <a class="btn cur-p btn-danger" href="{{ path('delete_rec',{'id':a.id}) }}"> Delete</a> <a class="btn cur-p btn-success" href="{{ path('update_rec',{'id':a.id}) }}"> update</a> </td>
+
+            </tr {% endfor %} >
+
+            </tbody>
+        </table>
+        <!-- End Default Table Example -->
+    </div>
+{% endblock %}
