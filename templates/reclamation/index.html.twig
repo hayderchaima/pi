@@ -11,6 +11,9 @@
                 <th scope="col">fullname</th>
                 <th scope="col">categories</th>
                 <th scope="col">Actions</th>
+                <th scope="col">date</th>
+                <th scope="col">image</th>
+            
             </tr>
             </thead>
             <tbody>
@@ -20,7 +23,13 @@
 
                 <td>{{ a.categories.name }}</td>
 
-                <td> <a class="btn cur-p btn-danger" href="{{ path('delete_rep',{'id':a.id}) }}"> Delete</a> <a class="btn cur-p btn-success" href="{{ path('update_rep',{'id':a.id}) }}"> update</a> </td>
+                <td>{{ a.date|date('d-m-Y') }}</td>
+
+                <td> <img src="{{ asset ('uploads/images/' ~ a.image) }}"  style="width:80px ; height:80px" /></td>
+
+                <td> <a class="btn cur-p btn-danger" href="{{ path('delete_rep',{'id':a.id}) }}"> Delete</a>
+                     <a class="btn cur-p btn-success" href="{{ path('update_rep',{'id':a.id}) }}"> update</a>
+                    <a class="btn cur-p btn-success" href=""> Reponse</a> </td>
 
             </tr {% endfor %} >
 

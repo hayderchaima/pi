@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card-body">
+        <h5 class="card-title">Responses</h5>
+
+        <!-- Loop through each response -->
+        {% for response in Reponse %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">name: {{ response.name }}</h5>
+                    <p class="card-text">Reclamation: {{ response.reclamations.fullname }}</p>
+                    <p class="card-text">Description: {{ response.description }}</p>
+                </div>
+                <div class="card-footer">
+                    <div class="btn-group" role="group" aria-label="Actions">
+                        <a class="btn cur-p btn-danger" href="{{ path('delete_adh', {'id': response.id}) }}">Delete</a>
+                        <a class="btn cur-p btn-success" href="{{ path('update_adh', {'id': response.id}) }}">Update</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

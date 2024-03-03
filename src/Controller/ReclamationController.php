@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ReclamationController extends AbstractController
 {
@@ -23,17 +24,29 @@ class ReclamationController extends AbstractController
     }
     #[Route('/add_reclamation', name: 'add_reclamation')]
 
-    public function Add(Request  $request , ManagerRegistry $doctrine ) : Response {
+    public function Add(Request  $request , ManagerRegistry $doctrine ,SluggerInterface $slugger) : Response {
         $Reclamation =  new Reclamation() ;
         $form =  $this->createForm(ReclamationType::class,$Reclamation) ;
         $form->add('Ajouter' , SubmitType::class) ;
         $form->handleRequest($request) ;
         if($form->isSubmitted()&& $form->isValid()){
+            $brochureFile = $form->get('image')->getData();
+            //$file =$Categorie->getImage();
+            $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+            //$uploads_directory = $this->getParameter('upload_directory');
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+            //$fileName = md5(uniqid()).'.'.$file->guessExtension();
+            $brochureFile->move(
+                $this->getParameter('upload_directory'),
+                $newFilename
+            );
+            $Reclamation->setImage(($newFilename));
             $Reclamation = $form->getData();
             $em= $doctrine->getManager() ;
             $em->persist($Reclamation);
             $em->flush();
-            return $this ->redirectToRoute('add_reclamatsion') ;
+            return $this ->redirectToRoute('add_reclamation') ;
         }
         return $this->render('reclamation/frontadd.html.twig' , [
             'form' => $form->createView()

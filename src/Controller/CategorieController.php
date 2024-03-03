@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 class CategorieController extends AbstractController
 {
@@ -24,25 +24,14 @@ class CategorieController extends AbstractController
     }
     #[Route('/add_categorie', name: 'add_categorie')]
 
-    public function Add(Request  $request , ManagerRegistry $doctrine ,SluggerInterface $slugger) : Response {
+    public function Add(Request  $request , ManagerRegistry $doctrine ) : Response {
 
         $Categorie =  new Categorie() ;
         $form =  $this->createForm(CategorieType::class,$Categorie) ;
         $form->add('Ajouter' , SubmitType::class) ;
         $form->handleRequest($request) ;
         if($form->isSubmitted()&& $form->isValid()){
-            $brochureFile = $form->get('image')->getData();
-            //$file =$Categorie->getImage();
-            $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-            //$uploads_directory = $this->getParameter('upload_directory');
-            $safeFilename = $slugger->slug($originalFilename);
-            $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
-            //$fileName = md5(uniqid()).'.'.$file->guessExtension();
-            $brochureFile->move(
-                $this->getParameter('upload_directory'),
-                $newFilename
-            );
-            $Categorie->setImage(($newFilename));
+            
             $Categorie = $form->getData();
             $em= $doctrine->getManager() ;
             $em->persist($Categorie);
@@ -55,12 +44,18 @@ class CategorieController extends AbstractController
     }
 
     #[Route('/afficher_recla', name: 'afficher_recla')]
-    public function AfficheCategorie (CategorieRepository $repo   ): Response
+    public function AfficheCategorie (CategorieRepository $repo ,PaginatorInterface $paginator ,Request $request    ): Response
     {
         //$repo=$this ->getDoctrine()->getRepository(Categorie::class) ;
         $Categorie=$repo->findAll() ;
+         $pagination = $paginator->paginate(
+            $Categorie,
+            $request->query->getInt('page', 1),
+            1
+            
+        );
         return $this->render('categorie/index.html.twig' , [
-            'Categorie' => $Categorie ,
+            'Categorie' => $pagination ,
             'ajoutA' => $Categorie
         ]) ;
     }
@@ -91,5 +86,31 @@ class CategorieController extends AbstractController
             'form' => $form->createView()
         ]) ;
 
+    
+    }
+
+    #[Route('/statsabonn', name: 'statsabonn')]
+    public function statistiques(CategorieRepository $abonnrepo){
+        // On va chercher toutes les catégories
+        $abonn = $abonnrepo->findAll();
+
+        $abonnName = [];
+        $abonnColor = [];
+        $abonnCount = [];
+
+        // On "démonte" les données pour les séparer tel qu'attendu par ChartJS
+        foreach($abonn as $abon){
+            $abonnName[] = $abon->getName();
+            $abonnColor[] = $abon->getColor();
+            $abonnCount[] = count($abon->getReclamations());
+        }
+
+        // On va chercher le nombre d'annonces publiées par date
+
+        return $this->render('stat/stats.html.twig', [
+            'abonnName' => json_encode($abonnName),
+            'abonnColor' => json_encode($abonnColor),
+            'abonnCount' => json_encode($abonnCount),
+        ]);
     }
 }

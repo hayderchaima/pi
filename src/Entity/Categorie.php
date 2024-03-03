@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\CategorieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
+
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,11 +17,9 @@ class Categorie
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\NotNull (message: "Il faut remplire ce chemp")]
-    private ?\DateTimeInterface $date = null;
+   
 
-    
+   
 
     #[ORM\Column(length: 255)]
     #[Assert\NotNull (message: "Il faut remplire ce chemp")]
@@ -35,7 +33,8 @@ class Categorie
     private ?string $Name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $image = null;
+    private ?string $color = null;
+    
 
     public function __construct()
     {
@@ -49,17 +48,7 @@ class Categorie
         return $this->id;
     }
 
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
-
-        return $this;
-    }
+    
 
     public function getDescription(): ?string
     {
@@ -102,6 +91,17 @@ class Categorie
 
         return $this;
     }
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
+
+        return $this;
+    }
 
     public function getName(): ?string
     {
@@ -115,15 +115,5 @@ class Categorie
         return $this;
     }
 
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(string $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
+    
 }
