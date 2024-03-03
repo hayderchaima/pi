@@ -1,0 +1,38 @@
+{% extends 'back.html.twig' %}
+
+
+
+{% block body %}
+    <h1>Artist</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ artist.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ artist.nom }}</td>
+            </tr>
+            <tr>
+                <th>Nationalite</th>
+                <td>{{ artist.nationalite }}</td>
+            </tr>
+            <tr>
+                <th>Biography</th>
+                <td>{{ artist.biography }}</td>
+            </tr>
+            <tr>
+                <th>Date_naissance</th>
+                <td>{{ artist.dateNaissance ? artist.dateNaissance|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_artist_back_index') }}">back to list</a>
+
+    <a href="{{ path('app_artist_edit_back', {'id': artist.id}) }}">edit</a>
+
+    {{ include('artist/_delete_form.html.twig') }}
+{% endblock %}

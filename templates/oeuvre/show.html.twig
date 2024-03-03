@@ -1,0 +1,65 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Oeuvre{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Oeuvre Details</h1>
+
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ oeuvre.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Titre</th>
+                            <td>{{ oeuvre.titre }}</td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td>{{ oeuvre.description }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date_creation</th>
+                            <td>{{ oeuvre.dateCreation ? oeuvre.dateCreation|date('Y-m-d') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Type</th>
+                            <td>{{ oeuvre.type }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <a href="{{ path('app_oeuvre_index') }}" class="btn btn-primary">Back to list</a>
+                <a href="https://facebook.com/sharer/sharer.php?u=https://127.0.0.1:8000/oeuvre/{{ oeuvre.id }}"
+   style="color: #fff; /* Text color */
+          background-color: #295C6E; /* Background color */
+          border-radius: 5px; /* Rounded corners */
+          border: 1px solid #295C6E; /* Border color */
+          padding: 8px 15px; /* Padding around the text */
+          text-decoration: none; /* Remove underline */
+          display: inline-block; /* Display as block element */
+          transition: background-color 0.3s ease; /* Smooth transition on hover */
+          font-weight: bold; /* Bold font weight */">
+    SHARE
+</a>
+            </div>
+
+            <div class="col-md-6">
+                <div style="text-align: center;">
+                    <img class="img-fluid"
+                         src="{{ asset('assets/img/' ~ oeuvre.image) }}"
+                         alt="Oeuvre Image">
+                </div>
+            </div>
+        </div>
+        </a>
+         
+
+         
+
+    </div>
+{% endblock %}

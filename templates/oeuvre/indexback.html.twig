@@ -1,0 +1,94 @@
+{% extends 'back.html.twig' %}
+
+
+
+{% block body %}
+    <h1>Oeuvre index</h1>
+<div class="row mb-3">
+            <div class="col">
+                <input type="text" class="form-control" id="liveSearch" autocomplete="off" placeholder="Search oeuvres">
+            </div>
+            <div class="col-auto">
+                <button id="searchButton" class="btn btn-success">Search</button>
+            </div>
+        </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Date_creation</th>
+                <th>Type</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for oeuvre in oeuvres %}
+            <tr>
+                <td>{{ oeuvre.id }}</td>
+                <td>{{ oeuvre.titre }}</td>
+                <td>{{ oeuvre.description }}</td>
+                <td>{{ oeuvre.dateCreation ? oeuvre.dateCreation|date('Y-m-d') : '' }}</td>
+                <td>{{ oeuvre.type }}</td>
+                <td>
+                    <a href="{{ path('app_oeuvre_show_back', {'id': oeuvre.id}) }}">show</a>
+                    <a href="{{ path('app_oeuvre_edit_back', {'id': oeuvre.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_oeuvre_new_back') }}">Create new</a>
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#searchButton').click(function() {
+            var query = $('#liveSearch').val();
+            $.ajax({
+                url: '{{ path('search_oeuvres') }}',
+                type: 'GET',
+                data: { query: query },
+                success: function(response) {
+                    // Handle the response as needed
+                    if (response.length > 0) {
+                        // Clear existing table rows
+                        $('tbody').empty();
+
+                        // Loop through the search results and append new table rows
+                        $.each(response, function(index, oeuvre) {
+                            var row = '<tr>' +
+                                '<td>' + oeuvre.id + '</td>' +
+                                '<td>' + oeuvre.titre + '</td>' +
+                                '<td>' + oeuvre.description + '</td>' +
+                                '<td>' + (oeuvre.dateCreation ? oeuvre.dateCreation : '') + '</td>' +
+                                '<td>' + oeuvre.type + '</td>' +
+                                '<td>' +
+                                '<a href="' + '{{ path('app_oeuvre_show_back', {'id': 'oeuvre_ID'}) }}'.replace('oeuvre_ID', oeuvre.id) + '" class="btn btn-info btn-sm me-1">ShowU</a>' +
+                                '<a href="' + '{{ path('app_oeuvre_edit_back', {'id': 'oeuvre_ID'}) }}'.replace('oeuvre_ID', oeuvre.id) + '" class="btn btn-primary btn-sm me-1">Edit</a>' +
+                                '</td>' +
+                                '</tr>';
+
+                            $('tbody').append(row);
+                        });
+                    } else {
+                        // If no oeuvres were found, display a message
+                        $('tbody').html('<tr><td colspan="8" class="text-center">No records found</td></tr>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX request failed:', error);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

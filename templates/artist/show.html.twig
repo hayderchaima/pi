@@ -1,0 +1,54 @@
+{% extends 'front.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Artist Details</h1>
+
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ artist.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nom</th>
+                            <td>{{ artist.nom }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nationalite</th>
+                            <td>{{ artist.nationalite }}</td>
+                        </tr>
+                        <tr>
+                            <th>Biography</th>
+                            <td>{{ artist.biography }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date_naissance</th>
+                            <td>{{ artist.dateNaissance ? artist.dateNaissance|date('Y-m-d') : '' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <a href="{{ path('app_artist_index') }}" class="btn btn-primary">Back to list</a>
+                <a href="{{ path('qr_code', {'id': artist.id}) }}" class="btn btn-primary">Generate QR Code</a>
+               
+<!-- Element to display the QR code -->
+
+            </div>
+
+            <div class="col-md-6">
+                <div style="text-align: center;">
+                    <img class="img-fluid"
+                         src="{{ asset('assets/img/' ~ artist.imageArtist) }}"
+                         alt="Artist Image">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}
+{% block javascripts %}
+
+{% endblock %}

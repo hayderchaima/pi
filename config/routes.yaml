@@ -1,0 +1,9 @@
+controllers:
+  resource:
+    path: ../src/Controller/
+    namespace: App\Controller
+  type: attribute
+search_oeuvres:
+  path: /searchOeuvres
+  controller: App\Controller\OeuvreController::searchOeuvres
+  methods: [GET]

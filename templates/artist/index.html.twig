@@ -1,0 +1,31 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Artist index{% endblock %}
+
+{% block body %}
+    <h1>Artist index</h1>
+
+    <div class="row">
+        {% for artist in artists %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img class="card-img-top" src="{{ asset('assets/img/' ~ artist.imageartist) }}" alt="Artist Image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ artist.nom }}</h5>
+                        <p class="card-text">{{ artist.biography }}</p>
+                        <p class="card-text"><small class="text-muted">Nationality: {{ artist.nationalite }}</small></p>
+                        <p class="card-text"><small class="text-muted">Birthdate: {{ artist.dateNaissance ? artist.dateNaissance|date('Y-m-d') : '' }}</small></p>
+                        <a href="{{ path('app_artist_show', {'id': artist.id}) }}" class="btn btn-primary">Show</a>
+                        
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-md-12">
+                <p>No records found</p>
+            </div>
+        {% endfor %}
+    </div>
+
+   
+{% endblock %}
