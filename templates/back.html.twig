@@ -43,7 +43,7 @@
                 <div class="container-fluid">
                     <div class="header-mobile-inner">
                         <a class="logo" >
-                            <img src="{{ asset('images/icon/logo.png') }}" alt="CoolAdmin" />
+                            <img src="{{ asset('logo.png') }}" alt="CoolAdmin"class="img-fluid" style="max-width: 100px; height: auto;" />
                         </a>
                         <button class="hamburger hamburger--slider" type="button">
                             <span class="hamburger-box">
@@ -89,7 +89,7 @@
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
                 <a >
-                    <img src="{{ asset('images/icon/logo.png') }}" alt="Cool Admin" />
+                    <img src="{{ asset('logo.png') }}" alt="Cool Admin" class="img-fluid" style="max-width: 100px; height: auto;" />
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
@@ -146,7 +146,7 @@
                                             </div>
                                             <div class="mess__item">
                                                 <div class="image img-cir img-40">
-                                                    <img src="images/icon/avatar-06.jpg" alt="Michelle Moreno" />
+                                                    <img  alt="Michelle Moreno" />
                                                 </div>
                                                 <div class="content">
                                                     <h6>Michelle Moreno</h6>
@@ -156,7 +156,7 @@
                                             </div>
                                             <div class="mess__item">
                                                 <div class="image img-cir img-40">
-                                                    <img src="images/icon/avatar-04.jpg" alt="Diane Myers" />
+                                                    <img  alt="Diane Myers" />
                                                 </div>
                                                 <div class="content">
                                                     <h6>Diane Myers</h6>
@@ -178,7 +178,7 @@
                                             </div>
                                             <div class="email__item">
                                                 <div class="image img-cir img-40">
-                                                    <img src="images/icon/avatar-06.jpg" alt="Cynthia Harvey" />
+                                                    <img  alt="Cynthia Harvey" />
                                                 </div>
                                                 <div class="content">
                                                     <p>Meeting about new dashboard...</p>
@@ -187,7 +187,7 @@
                                             </div>
                                             <div class="email__item">
                                                 <div class="image img-cir img-40">
-                                                    <img src="images/icon/avatar-05.jpg" alt="Cynthia Harvey" />
+                                                    
                                                 </div>
                                                 <div class="content">
                                                     <p>Meeting about new dashboard...</p>
@@ -196,7 +196,7 @@
                                             </div>
                                             <div class="email__item">
                                                 <div class="image img-cir img-40">
-                                                    <img src="images/icon/avatar-04.jpg" alt="Cynthia Harvey" />
+                                                    <img  alt="Cynthia Harvey" />
                                                 </div>
                                                 <div class="content">
                                                     <p>Meeting about new dashboard...</p>
@@ -252,7 +252,7 @@
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
                                         {% if app.user %}
-                                            <img src="images/icon/avatar-01.jpg" alt="{{app.user.nom}}" />
+                                            <img  alt="{{app.user.nom}}" />
                                         </div>
                                         <div class="content">
                                             <a class="js-acc-btn" href="#">{{app.user.nom}}</a>
@@ -261,7 +261,7 @@
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        <img src="images/icon/avatar-01.jpg" alt="{{app.user.nom}}" />
+                                                        <img  alt="{{app.user.nom}}" />
                                                     </a>
                                                 </div>
                                                 <div class="content">
@@ -330,8 +330,56 @@
     </div>
 
     <!-- Jquery JS-->
-    <script src="{{ asset('back/assets/vendor/jquery-3.2.1.min.js') }}"></script>
-    <!-- Bootstrap JS-->
+    
+  {% block js %}
+  <!-- jQery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+    console.log("DOM Content Loaded");
+    $('#searchButton').on('click', function() {
+        var query = $('#liveSearch').val();
+        $.ajax({
+            url: "{{ path('search_users') }}",
+            method: 'GET',
+            data: { query: query },
+            success: function(response) {
+                if (response.length > 0) {
+                    $('tbody').empty();
+                    response.forEach(function(user) {
+                        var blockedStatus = user.blocked ? "User is blocked" : "User is not blocked";   //remplace le bloc if //
+                           
+                        var row = "<tr>" +
+                            "<td>" + user.id + "</td>" +
+                            "<td>" + user.email + "</td>" +
+                            "<td>" + user.nom + "</td>" +
+                            "<td>" + user.prenom + "</td>" +
+                            "<td>" + user.role + "</td>" +
+                            "<td>" + blockedStatus + "</td>" +
+                            "<td>" +
+                            '<a href="{{ path('app_user_show', {'id': 'USER_ID'}) }}'.replace('USER_ID', user.id) + '" class="btn btn-primary">Show</a>' +
+                            '<a href="{{ path('app_user_delete', {'id': 'USER_ID'}) }}'.replace('USER_ID', user.id) + '" class="btn btn-danger">Delete</a>' +
+                            "</td>" +
+                            "</tr>";
+                        $('tbody').append(row);
+                    });
+                } else {
+                    $('tbody').html('<tr><td colspan="6" class="text-center">No records found</td></tr>');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX request failed:', status, error);
+            }
+        });
+    });
+});
+
+</script>
+   
+  {% endblock %}
+    
+    
+ <!-- Bootstrap JS-->
     <script src="{{ asset('back/assets/vendor/bootstrap-4.1/popper.min.js') }}"></script>
     <script src="{{ asset('back/assets/vendor/bootstrap-4.1/bootstrap.min.js') }}"></script>
     <!-- Vendor JS -->
@@ -339,7 +387,7 @@
     <script src="{{ asset('back/assets/vendor/wow/wow.min.js') }}"></script>
     <script src="{{ asset('back/assets/vendor/animsition/animsition.min.js') }}"></script>
     <script src="{{ asset('back/assets/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js') }}"></script>
-    <script src="{{ asset('back/assets/vendor/counter-up/jquery.waypoints.min.js') }}"></script>
+    
     <script src="{{ asset('back/assets/vendor/counter-up/jquery.counterup.min.js') }}"></script>
     <script src="{{ asset('back/assets/vendor/circle-progress/circle-progress.min.js') }}"></script>
     <script src="{{ asset('back/assets/vendor/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
@@ -348,7 +396,7 @@
 
     <!-- Main JS-->
     <script src="{{ asset('back/assets/js/main.js') }}"></script>
-
+  <!-- End Google Map -->
 </body>
 
 </html>

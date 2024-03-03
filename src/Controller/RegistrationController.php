@@ -33,6 +33,7 @@ class RegistrationController extends AbstractController
                 )
             );
             $user->setRole(Role::abonne);
+            $user->setBlocked(false);
 
             $entityManager->persist($user);
             $entityManager->flush();

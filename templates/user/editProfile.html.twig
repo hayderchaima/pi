@@ -1,13 +1,18 @@
 {% extends 'front.html.twig' %}
 
 {% block title %}Edit Profile{% endblock %}
+{% block header %}
+							   <li><a href="{{ path('app_logout') }}">LOGOUT</a></li>
+                               <li><a href="{{ path('app_user_editProfile', {'id': utilisateur.id}) }}" class="btn btn-success ">edit</a></li>
+                               
+			                   {% endblock %}
 
 {% block body %}
     <h1>Edit Profile</h1>
 
-    {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('user/_formP.html.twig', {'button_label': 'Update'}) }}
 
-   <a href="{{ path('profile', {'id': utilisateur.id}) }}">home</a>
+   <a href="{{ path('profile', {'id': utilisateur.id}) }}" class="btn btn-primary ms-2">cancel</a>
 
     
 {% endblock %}

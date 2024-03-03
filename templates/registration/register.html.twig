@@ -1,22 +1,32 @@
-{% extends 'front.html.twig' %}
+{% extends 'log.html.twig' %}
 
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title" style="margin-left: 440px">Register</h1>
 
-    {{ form_errors(registrationForm) }}
+            {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-    {{ form_row(registrationForm.nom) }} {# Add the "nom" field #}
-        {{ form_row(registrationForm.prenom) }} {# Add the "prenom" field #}
-        
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+            <div style="max-width: 320px; margin: 0 auto;">
+                {{ form_start(registrationForm) }}
+                {{ form_row(registrationForm.nom, {attr: {class: "form-control mb-2", placeholder: "Name"}}) }}
+                {{ form_row(registrationForm.prenom, {attr: {class: "form-control mb-2", placeholder: "Surname"}}) }}
+                {{ form_row(registrationForm.email, {attr: {class: "form-control mb-2", placeholder: "Email"}}) }}
+                {{ form_row(registrationForm.plainPassword, {
+                    label: 'Password',
+                    attr: {class: "form-control mb-2", placeholder: "Password"}
+                }) }}
+                {{ form_row(registrationForm.agreeTerms) }}
+                <div style="max-width: 200px; margin: 0 auto;">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                    <a class="btn btn-secondary" href="{{ path('app_login') }}">Sign In</a>
+                </div>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

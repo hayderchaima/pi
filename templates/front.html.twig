@@ -67,11 +67,13 @@
 				          <li><a href="ticket.html">Ticket</a></li>
 				          <li><a href="blog-home.html">Blog</a></li>
 				          <li><a href="contact.html">Contact</a></li>
-				          <li class="menu-has-children"><a href="">Pages</a>
+				          <li class="menu-has-children"><a href="">Profil</a>
 				            <ul>
-				              <li><a href="blog-single.html">Blog Single</a></li>
-				              <li><a href="category.html">Category</a></li>
-				              <li><a href="elements.html">Elements</a></li>
+				              
+				               {% block header %}
+							   
+			                   {% endblock %}
+				              
 				            </ul>
 				          </li>			          
 				        </ul>
@@ -175,6 +177,3 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	
 		</body>
 	</html>
-
-
-

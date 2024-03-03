@@ -3,44 +3,80 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
+<h1>User index</h1>
 
-    <table class="table">
+<div class="row mb-3">
+    <div class="col">
+        <label for="liveSearch" class="visually-hidden">Search users</label>
+        <input type="text" class="form-control" id="liveSearch" autocomplete="off" placeholder="Search users" style="border-radius: 10px; border-color: #5733ff;">
+    </div>
+    <div class="col-auto align-self-end"> <!-- Added align-self-end class -->
+        <button id="searchButton" class="btn btn-success search-btn">Search</button>
+    </div>
+</div>
+
+    <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                
-                
-                <th>Role</th>
-                <th>actions</th>
+
+<table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                   
+                                </th>
+                                <th>
+                                    <a href="{{ path('app_user_index', {'sort_by': 'email'}) }}">Email</a>
+                                </th>
+                                <th>
+                                    <a href="{{ path('app_user_index', {'sort_by': 'nom'}) }}">Fullname</a>
+                                </th>
+
+                                 <th>
+            </th>
+                <th>
+                                    <a href="{{ path('app_user_index', {'sort_by': 'role'}) }}">Roles</a>
+                                </th>
+
+
             </tr>
         </thead>
         <tbody>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.nom }}</td>
-                <td>{{ user.prenom }}</td>
-                
-                
-                
-                <td>{{ user.role }}</td>
-                <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.nom }}</td>
+                    <td>{{ user.prenom }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>
+                            {% if user.blocked %}
+                                <span class="badge badge-danger">blocked</span>
+                            {% else %}
+                                <span class="badge badge-success">Not blocked</span>
+                            {% endif %}
+                        </td>
+                    <td>
+                        <a href="{{ path('app_user_show', {'id': user.id}) }}" class="btn btn-primary">Show</a>
+                        {{ include('user/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" class="text-center">No records found</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
-
-  
 {% endblock %}
+
+{% block javascripts %}
+
+
+{% endblock %}
+   
+
+
+
+
+   

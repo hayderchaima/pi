@@ -2,11 +2,15 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 app_login:
-    path: /login
-    controller: App\Controller\SecurityController::login
+  path: /
+  controller: App\Controller\SecurityController::login
 app_logout:
-    path: /logout
-    controller: App\Controller\SecurityController::logout  
+  path: /logout
+  controller: App\Controller\SecurityController::logout
 app_register:
-    path: /register
-    controller: App\Controller\RegistrationController::register      
+  path: /register
+  controller: App\Controller\RegistrationController::register
+search_users:
+  path: /user/back/searchUsers
+  controller: App\Controller\UserController::searchUsers
+  methods: [GET]

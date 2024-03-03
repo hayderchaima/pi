@@ -47,7 +47,7 @@ class SecurityController extends AbstractController
     #[Route(path: '/profile', name: 'profile')]
     public function profile(Security $security, UserRepository $userRepository)
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $security->getUser();
         
 

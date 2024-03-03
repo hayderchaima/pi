@@ -9,6 +9,7 @@ use App\Enum\Role;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,18 +22,27 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserController extends AbstractController
 {
     #[Route('/back', name: 'app_user_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository, Security $security): Response
+    public function index(Request $request, UserRepository $userRepository, Security $security): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         if ($user !== null) {
             $role = $user->getRole();
+            $sortBy = $request->query->get('sort_by', 'email'); // Par défaut, tri par email
+            $queryBuilder = $userRepository->createQueryBuilder('u')
 
+                ->orderBy('u.' . $sortBy, 'ASC');
             if ($role === Role::ADMIN) {
+
+
+                $query = $queryBuilder->getQuery();
+$users = $query->getResult();
                 return $this->render('user/index.html.twig', [
                     'users' => $userRepository->findAll(),
+                    'users' => $users,
                 ]);
             } else {
+ 
                 // The user is a regular user
                 // Do something for regular users
                 return $this->redirectToRoute('app_user_index_front');
@@ -41,12 +51,14 @@ class UserController extends AbstractController
 
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
-        ]);
+        ]);        
     }
+
+    
     #[Route('/front', name: 'app_user_index_front', methods: ['GET'])]
     public function indexF(UserRepository $userRepository): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         if ($user !== null) {
             $role = $user->getRole();
@@ -62,12 +74,13 @@ class UserController extends AbstractController
             }
         }
         return $this->redirectToRoute('app_login');
+
     }
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -88,7 +101,7 @@ class UserController extends AbstractController
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
     public function show(User $user): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
@@ -97,7 +110,7 @@ class UserController extends AbstractController
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -116,7 +129,7 @@ class UserController extends AbstractController
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $entityManager->remove($user);
             $entityManager->flush();
@@ -128,7 +141,7 @@ class UserController extends AbstractController
     #[Route('/{id}/editProfile', name: 'app_user_editProfile', methods: ['GET', 'POST'])]
     public function editProfile(Request $request, User $utilisateur, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(UserEditType::class, $utilisateur);
         $form->handleRequest($request);
 
@@ -148,6 +161,36 @@ class UserController extends AbstractController
             'utilisateur' => $utilisateur,
             'form' => $form,
         ]);
+
+    }
+    #[Route('/searchUsers', name: 'search_users', methods: ['GET'])]
+    public function searchUsers(Request $request, UserRepository $userRepository): JsonResponse
+    {
+        // Retrieve the search query from the request
+        $query = $request->query->get('query');
+
+        // Perform the search operation based on the query
+        $users = $userRepository->searchByUsername($query);
+
+        // Return the search results as JSON response
+        return $this->json($users);
+    }
+
+    #[Route('/blockUser/{id}', name: 'block_user', methods: ['GET', 'POST'])]
+    public function blockbanUser(Request $request, UserRepository $userRepository,int $id): Response
+    {
+        // Retrieve the search query from the request
+        $user = $userRepository->find($id);
+        $userRepository->blockUser($user);
+
+        
+
+        // Perform the search operation based on the query
+        
+         
+
+        // Return the search results as JSON response
+        return $this->redirectToRoute('app_user_show', ['id' => $user->getId()]);
     }
 
 }
