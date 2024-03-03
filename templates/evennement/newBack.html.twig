@@ -1,0 +1,72 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}New Evennement{% endblock %}
+
+{% block body %}
+<style>
+  h1 {
+    text-align: center;
+    color: #3498db;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+  }
+
+  th,
+  td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #f1f1f1;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  /* Improved button styles */
+  .search-sort button,
+  .actions a,
+  .create-new,
+  .statistics {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer; /* Add cursor pointer for better user experience */
+  }
+
+  .search-sort button,
+  .create-new,
+  .statistics {
+    background-color: #2ecc71;
+    color: #fff;
+  }
+
+  .actions a {
+    background-color: #3498db;
+    color: #fff;
+  }
+
+  .search-sort button:hover,
+  .create-new:hover,
+  .statistics:hover {
+    background-color: #27ae60;
+  }
+
+  .actions a:hover {
+    background-color: #ddd;
+  }
+</style>
+
+<h1>Create new Evennement</h1>
+
+{{ include('evennement/_form.html.twig') }}
+
+<a href="{{ path('app_evennement_index_back') }}" class="create-new">back to list</a>
+{% endblock %}

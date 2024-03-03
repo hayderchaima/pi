@@ -1,0 +1,78 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Sponsor{% endblock %}
+
+{% block body %}
+<style>
+  h1 {
+    text-align: center;
+    color: #3498db;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+  }
+
+  th,
+  td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #f1f1f1;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  /* Improved button styles */
+  .btn,
+  .actions a {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer; /* Add cursor pointer for better user experience */
+  }
+
+  .btn,
+  .actions a {
+    background-color: #2ecc71;
+    color: #fff;
+  }
+
+  .actions a:hover {
+    background-color: #ddd;
+  }
+</style>
+
+<h1>Sponsor</h1>
+
+<table class="table">
+  <tbody>
+    <tr>
+      <th>Id</th>
+      <td>{{ sponsor.id }}</td>
+    </tr>
+    <tr>
+      <th>Nom</th>
+      <td>{{ sponsor.nom }}</td>
+    </tr>
+    <tr>
+      <th>Montant</th>
+      <td>{{ sponsor.montant }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="actions">
+  <a href="{{ path('app_sponsor_index_back') }}">back to list</a>
+  <a href="{{ path('app_sponsor_edit_back', {'id': sponsor.id}) }}">edit</a>
+</div>
+
+{{ include('sponsor/_delete_form.html.twig') }}
+{% endblock %}

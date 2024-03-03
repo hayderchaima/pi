@@ -1,0 +1,126 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Evennement index{% endblock %}
+
+{% block body %}
+
+<style>
+  h1 {
+    text-align: center;
+    color: #3498db;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+  }
+
+  th,
+  td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #f1f1f1;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  /* Improved button styles */
+  .search-sort button,
+  .actions a,
+  .create-new,
+  .statistics {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer; /* Add cursor pointer for better user experience */
+  }
+
+  .search-sort button,
+  .create-new,
+  .statistics {
+    background-color: #2ecc71;
+    color: #fff;
+  }
+
+  .actions a {
+    background-color: #3498db;
+    color: #fff;
+  }
+
+  .search-sort button:hover,
+  .create-new:hover,
+  .statistics:hover {
+    background-color: #27ae60;
+  }
+
+  .actions a:hover {
+    background-color: #ddd;
+  }
+</style>
+
+<h1>Evennement index</h1>
+
+<div class="search-sort">
+  <form action="{{ path('app_evennement_sort') }}" method="get">
+    Sort by:
+    <select name="sortBy">
+      <option value="date_debut">Start Date (default)</option>
+      <option value="nb_participant">Number of Participants</option>
+      <option value="name">Name</option>
+    </select>
+    <button type="submit">Sort</button>
+  </form>
+
+  <form action="{{ path('app_evennement_search') }}" method="get">
+    Search by name: <input type="text" name="name" value="{{ searchQuery ?? '' }}"/>
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th><a href="{{ path('app_evennement_sort', {'sortBy': 'name'}) }}">Nom</a></th>
+      <th><a href="{{ path('app_evennement_sort', {'sortBy': 'date_debut'}) }}">Date_debut</a></th>
+      <th>Date_fin</th>
+      <th>Lieu</th>
+      <th><a href="{{ path('app_evennement_sort', {'sortBy': 'nb_participant'}) }}">NbParticipant</a></th>
+      <th>sponsor</th>
+      <th>actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for evennement in evennements %}
+
+    <tr>
+      <td>{{ evennement.id }}</td>
+      <td>{{ evennement.nom }}</td>
+      <td>{{ evennement.dateDebut ? evennement.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
+      <td>{{ evennement.dateFin ? evennement.dateFin|date('Y-m-d H:i:s') : '' }}</td>
+      <td>{{ evennement.lieu }}</td>
+      <td>{{ evennement.nbParticipant }}</td>
+      <td>{{ evennement.sponsor.nom }}</td>
+      <td class="actions">
+        <a href="{{ path('app_evennement_show_back', {'id': evennement.id}) }}">show</a>
+        <a href="{{ path('app_evennement_edit_back', {'id': evennement.id}) }}">edit</a>
+      </td>
+    </tr>
+    {% else %}
+    <tr>
+      <td colspan="7">no records found</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="{{ path('app_evennement_new_back') }}" class="create-new">Create new</a>
+<a href="{{ path('app_evennement_statistics') }}" class="statistics">Statistics</a>
+{% endblock %}

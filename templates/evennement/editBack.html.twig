@@ -1,0 +1,45 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Edit Evennement{% endblock %}
+
+{% block body %}
+<style>
+  h1 {
+    text-align: center;
+    color: #3498db;
+  }
+
+  /* Improved button styles */
+  .btn,
+  .actions a {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer; /* Add cursor pointer for better user experience */
+  }
+
+  .btn-primary,
+  .actions a {
+    background-color: #2ecc71;
+    color: #fff;
+  }
+
+  .btn-secondary {
+    background-color: #3498db;
+    color: #fff;
+  }
+
+  .btn:hover,
+  .actions a:hover {
+    background-color: #ddd;
+  }
+</style>
+
+<h1>Edit Evennement</h1>
+
+{{ include('evennement/_form.html.twig', {'button_label': 'Update'}) }}
+
+<a href="{{ path('app_evennement_index_back') }}" class="btn btn-secondary">back to list</a>
+
+{{ include('evennement/_delete_form.html.twig') }}
+{% endblock %}

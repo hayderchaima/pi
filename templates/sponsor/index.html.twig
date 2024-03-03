@@ -1,0 +1,27 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Sponsor index{% endblock %}
+
+{% block body %}
+  <h1 style="text-align: center; font-family: 'Open Sans', sans-serif; color: #3498db;">Sponsor index</h1>
+
+  <div class="row">
+    {% for sponsor in sponsors %}
+      <div class="col-md-4">
+        <div class="card mb-4 border-primary shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ sponsor.nom }}</h5>
+            <p class="card-text">Montant: {{ sponsor.montant }}</p>
+            <a href="{{ path('app_sponsor_show', {'id': sponsor.id}) }}" class="btn btn-primary">Voir détails</a>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="col-md-12">
+        <div class="alert alert-warning" role="alert">
+          Aucun sponsor trouvé.
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

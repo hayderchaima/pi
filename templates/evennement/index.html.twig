@@ -1,0 +1,36 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Evennement index{% endblock %}
+
+{% block body %}
+  <h1 style="text-align: center; font-family: 'Open Sans', sans-serif; color: #3498db;">Evennement index</h1>
+
+  <div class="row">
+    {% for evennement in evennements %}
+      <div class="col-md-4">
+        <div class="card mb-4 border-primary shadow-sm">
+          <img class="card-img-top" src="{{ asset('assets/img/' ~ evennement.image) }}" alt="..." style="height: 200px; object-fit: cover;">
+          <div class="card-body">
+            <h5 class="card-title">{{ evennement.nom }}</h5>
+            <p class="card-text text-muted">
+              Date début: {{ evennement.dateDebut ? evennement.dateDebut|date('Y-m-d H:i:s') : '' }}
+            </p>
+            <p class="card-text text-muted">
+              Date fin: {{ evennement.dateFin ? evennement.dateFin|date('Y-m-d H:i:s') : '' }}
+            </p>
+            <p class="card-text">Lieu: {{ evennement.lieu }}</p>
+            <p class="card-text">Nombre de participants: {{ evennement.nbParticipant }}</p>
+            <p class="card-text">Sponsor: {{ evennement.sponsor.nom }}</p>
+            <a href="{{ path('app_evennement_show', {'id': evennement.id}) }}" class="btn btn-primary">Voir détails</a>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="col-md-12">
+        <div class="alert alert-warning" role="alert">
+          Aucun événement trouvé.
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

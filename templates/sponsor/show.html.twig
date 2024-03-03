@@ -1,0 +1,30 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Sponsor{% endblock %}
+
+{% block body %}
+<div class="sponsor-details-container">
+  <h1 class="sponsor-title">Sponsor</h1>
+
+  <table class="sponsor-details-table table table-striped table-bordered">
+    <tbody>
+      <tr>
+        <th class="text-right">Id:</th>
+        <td>{{ sponsor.id }}</td>
+      </tr>
+      <tr>
+        <th class="text-right">Nom:</th>
+        <td>{{ sponsor.nom }}</td>
+      </tr>
+      <tr>
+        <th class="text-right">Montant:</th>
+        <td>{{ sponsor.montant }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="navigation-buttons">
+    <a href="{{ path('app_sponsor_index') }}" class="btn btn-primary back-button">Retour à la liste</a>
+  </div>
+</div>
+{% endblock %}

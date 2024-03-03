@@ -1,0 +1,45 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Evennement - {{ evennement.nom }}{% endblock %}
+
+{% block body %}
+<div class="event-details-container">
+  <h1 class="event-title">{{ evennement.nom }}</h1>
+
+  <table class="event-details-table table table-striped table-bordered">
+    <tbody>
+      <tr>
+        <th class="text-right">Id:</th>
+        <td>{{ evennement.id }}</td>
+      </tr>
+      <tr>
+        <th class="text-right">Nom:</th>
+        <td>{{ evennement.nom }}</td>
+      </tr>
+      <tr>
+        <th class="text-right">Date de début:</th>
+        <td>{{ evennement.dateDebut ? evennement.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
+      </tr>
+      <tr>
+        <th class="text-right">Date de fin:</th>
+        <td>{{ evennement.dateFin ? evennement.dateFin|date('Y-m-d H:i:s') : '' }}</td>
+      </tr>
+      <tr>
+        <th class="text-right">Lieu:</th>
+        <td>{{ evennement.lieu }}</td>
+      </tr>
+      <tr>
+        <th class="text-right">Nombre de participants:</th>
+        <td>{{ evennement.nbParticipant }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="event-image-container">
+    <img class="event-image" src="{{ asset('assets/img/' ~ evennement.image) }}" alt="..." style="width: 100%"> </div>
+
+  <div class="navigation-buttons">
+    <a href="{{ path('app_evennement_index') }}" class="btn btn-primary back-button">Retour à la liste</a>
+  </div>
+</div>
+{% endblock %}

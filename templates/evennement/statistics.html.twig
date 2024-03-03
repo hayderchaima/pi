@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Statistics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> </head>
+<body>
+    <h1>Event Statistics</h1>
+    <canvas id="myChart"></canvas>
+
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chartData = JSON.parse('{{ chartData | raw }}'); // Decode JSON data from controller
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: chartData.map(function(item) { return item.nom; }),
+                datasets: [{
+                    label: 'Number of Participants',
+                    data: chartData.map(function(item) { return item.nbParticipant; }),
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+</body>
+</html>

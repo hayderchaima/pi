@@ -1,0 +1,50 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}New Sponsor{% endblock %}
+
+{% block body %}
+<style>
+  h1 {
+    text-align: center;
+    color: #3498db;
+  }
+
+  /* Improved button styles */
+  .search-sort button,
+  .actions a,
+  .create-new,
+  .statistics {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer; /* Add cursor pointer for better user experience */
+  }
+
+  .create-new,
+  .statistics {
+    background-color: #2ecc71;
+    color: #fff;
+  }
+
+  .actions a {
+    background-color: #3498db;
+    color: #fff;
+  }
+
+  .search-sort button:hover,
+  .create-new:hover,
+  .statistics:hover {
+    background-color: #27ae60;
+  }
+
+  .actions a:hover {
+    background-color: #ddd;
+  }
+</style>
+
+<h1>Create new Sponsor</h1>
+
+{{ include('sponsor/_form.html.twig') }}
+
+<a href="{{ path('app_sponsor_index_back') }}" class="create-new">back to list</a>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Evennement{% endblock %}
+
+{% block body %}
+  <style>
+    h1 {
+      text-align: center;
+      color: #3498db;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 25px 0;
+    }
+
+    th,
+    td {
+      padding: 8px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f1f1f1;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    /* Improved button styles */
+    .btn,
+    .actions a {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer; /* Add cursor pointer for better user experience */
+    }
+
+    .btn,
+    .actions a {
+      background-color: #2ecc71;
+      color: #fff;
+    }
+
+    .actions a:hover {
+      background-color: #ddd;
+    }
+
+    /* New style for image */
+    img {
+      width: 100%; /* Set width to 100% of its container */
+      max-height: 500px; /* Set a maximum height to avoid stretching */
+    }
+  </style>
+
+  <h1>Evennement</h1>
+
+  <table class="table">
+    <tbody>
+      <tr>
+        <th>Id</th>
+        <td>{{ evennement.id }}</td>
+      </tr>
+      <tr>
+        <th>Nom</th>
+        <td>{{ evennement.nom }}</td>
+      </tr>
+      <tr>
+        <th>Date_debut</th>
+        <td>{{ evennement.dateDebut ? evennement.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
+      </tr>
+      <tr>
+        <th>Date_fin</th>
+        <td>{{ evennement.dateFin ? evennement.dateFin|date('Y-m-d H:i:s') : '' }}</td>
+      </tr>
+      <tr>
+        <th>Lieu</th>
+        <td>{{ evennement.lieu }}</td>
+      </tr>
+      <tr>
+        <th>NbParticipant</th>
+        <td>{{ evennement.nbParticipant }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div>
+    <img
+      src="{{ asset('assets/img/' ~ evennement.image) }}"
+      alt="..."
+    />
+  </div>
+
+  <a href="{{ path('app_event_PDF', {'id': evennement.id}) }}" class="btn">PDF</a>
+  <a href="{{ path('app_evennement_index_back') }}" class="btn">back to list</a>
+
+  <a href="{{ path('app_evennement_edit_back', {'id': evennement.id}) }}" class="btn">edit</a>
+
+  {{ include('evennement/_delete_form.html.twig') }}
+{% endblock %}

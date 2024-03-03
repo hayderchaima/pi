@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Details - {{ evennement.nom }}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th, td {
+      padding: 5px;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      text-align: left;
+      font-weight: bold;
+    }
+
+    /* New styles for logo positioning */
+    .logo-container {
+      float: right; /* Make the logo float right */
+      margin-top: 10px; /* Add some margin from top */
+    }
+
+    .logo {
+      width: 100px; /* Adjust width as needed */
+      height: auto; /* Maintain aspect ratio */
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-container">
+    <!-- <img src="C:\Users\soyre\evennement\public\assets\img\logo.png" alt="Logo" class="logo"> -->
+  </div>
+  <h1>Event Details</h1>
+  <table>
+    <tr>
+      <th>Event Name</th>
+      <td>{{ evennement.nom }}</td>
+    </tr>
+    <tr>
+      <th>Start Date</th>
+      <td>{{ evennement.DateDebut|date('Y-m-d H:i:s') }}</td>
+    </tr>
+    <tr>
+      <th>End Date</th>
+      <td>{{ evennement.DateFin|date('Y-m-d H:i:s') }}</td>
+    </tr>
+    {% if evennement.Sponsor %}
+    <tr>
+      <th>Sponsor</th>
+      <td>{{ evennement.Sponsor }}</td>
+    </tr>
+    {% endif %}
+    <tr>
+      <th>Location</th>
+      <td>{{ evennement.Lieu }}</td>
+    </tr>
+  </table>
+</body>
+</html>
